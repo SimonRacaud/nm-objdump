@@ -40,8 +40,9 @@ int load_elf_header(elf_file_t *file);
 int load_file(const char *filename, elf_file_t *file);
 void close_file(elf_file_t *file);
 
-//
+// nm archi
 int nm64(elf_file_t *file);
+int nm32(elf_file_t *file);
 
 // section
 Elf32_Shdr *get_sym_sect_hdr32(elf_file_t *file);
@@ -55,11 +56,15 @@ Elf64_Sym *symbol64_generator(Elf64_Shdr *sym_section, void *content);
 Elf32_Sym *symbol32_generator(Elf32_Shdr *sym_section, void *content);
 
 // Type
-char find_sym_type(Elf64_Sym *symbol, Elf64_Shdr *sections);
+char find_sym_type64(Elf64_Sym *symbol, Elf64_Shdr *sections);
+char find_sym_type32(Elf32_Sym *symbol, Elf32_Shdr *sections);
 
 // Symbols
 void save_elf_symbols64(
     elf_file_t *file, sym_list_t **list, size_t *list_size);
+void save_elf_symbols32(
+    elf_file_t *file, sym_list_t **list, size_t *list_size);
+
 void sort_symbols(sym_list_t **list);
 void display_symbols(sym_list_t *list);
 

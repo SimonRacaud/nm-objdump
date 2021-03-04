@@ -7,7 +7,7 @@
 
 #include "nm.h"
 
-static char find_flags_charlie(Elf64_Sym *symbol, Elf64_Shdr *sections)
+static char find_flags_charlie(Elf32_Sym *symbol, Elf32_Shdr *sections)
 {
     if (sections[symbol->st_shndx].sh_type == SHT_PROGBITS
         && (sections[symbol->st_shndx].sh_flags == SHF_ALLOC
@@ -23,7 +23,7 @@ static char find_flags_charlie(Elf64_Sym *symbol, Elf64_Shdr *sections)
     return '?';
 }
 
-static char find_flags_beta(Elf64_Sym *symbol, Elf64_Shdr *sections)
+static char find_flags_beta(Elf32_Sym *symbol, Elf32_Shdr *sections)
 {
     if (sections[symbol->st_shndx].sh_type == SHT_DYNAMIC)
         return 'D';
@@ -42,27 +42,27 @@ static char find_flags_beta(Elf64_Sym *symbol, Elf64_Shdr *sections)
     return find_flags_charlie(symbol, sections);
 }
 
-static char find_flags_alpha(Elf64_Sym *symbol, Elf64_Shdr *sections)
+static char find_flags_alpha(Elf32_Sym *symbol, Elf32_Shdr *sections)
 {
-    if (ELF64_ST_BIND(symbol->st_info) == STB_WEAK) {
+    if (ELF32_ST_BIND(symbol->st_info) == STB_WEAK) {
         return (symbol->st_shndx == SHN_UNDEF) ? 'w' : 'W';
     }
-    if (ELF64_ST_BIND(symbol->st_info) == STB_GNU_UNIQUE) {
+    if (ELF32_ST_BIND(symbol->st_info) == STB_GNU_UNIQUE) {
         return 'u';
     }
-    if (ELF64_ST_BIND(symbol->st_info) == STB_WEAK
-        && ELF64_ST_TYPE(symbol->st_info) == STT_OBJECT) {
+    if (ELF32_ST_BIND(symbol->st_info) == STB_WEAK
+        && ELF32_ST_TYPE(symbol->st_info) == STT_OBJECT) {
         return (symbol->st_shndx == SHN_UNDEF) ? 'v' : 'V';
     }
     return find_flags_beta(symbol, sections);
 }
 
-char find_sym_type(Elf64_Sym *symbol, Elf64_Shdr *sections)
+char find_sym_type32(Elf32_Sym *symbol, Elf32_Shdr *sections)
 {
     char type = '\0';
 
     type = find_flags_alpha(symbol, sections);
-    if (ELF64_ST_BIND(symbol->st_info) == STB_LOCAL && type != '?') {
+    if (ELF32_ST_BIND(symbol->st_info) == STB_LOCAL && type != '?') {
         type += 32;
     }
     return type;

@@ -26,3 +26,23 @@ int nm64(elf_file_t *file)
     sym_list_destroy(list);
     return EXIT_SUCCESS;
 }
+
+int nm32(elf_file_t *file)
+{
+    file->sections32 = get_section_header32(file->elf_head);
+    sym_list_t *list = NULL;
+    size_t list_size = 0;
+
+    if (!file->sections32)
+        return EXIT_ERROR;
+    file->strtab_sect = get_strtab_sect32(file);
+    file->sym_head32 = get_sym_sect_hdr32(file);
+    while (file->sym_head32 != NULL) {
+        save_elf_symbols32(file, &list, &list_size);
+        file->sym_head32 = get_sym_sect_hdr32(file);
+    }
+    sort_symbols(&list);
+    display_symbols(list);
+    sym_list_destroy(list);
+    return EXIT_SUCCESS;
+}
