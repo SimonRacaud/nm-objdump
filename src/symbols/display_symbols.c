@@ -7,13 +7,25 @@
 
 #include "nm.h"
 
-void display_symbols(sym_list_t *list)
+void display_symbols64(sym_list_t *list)
 {
     for (sym_list_t *ptr = list; ptr != NULL; ptr = ptr->next) {
         if (ptr->type != 'U' && ptr->type != 'w') {
             printf("%016lx ", ptr->value);
         } else {
             printf("                 ");
+        }
+        printf("%c %s\n", ptr->type, ptr->name);
+    }
+}
+
+void display_symbols32(sym_list_t *list)
+{
+    for (sym_list_t *ptr = list; ptr != NULL; ptr = ptr->next) {
+        if (ptr->type != 'U' && ptr->type != 'w') {
+            printf("%08lx ", ptr->value);
+        } else {
+            printf("         ");
         }
         printf("%c %s\n", ptr->type, ptr->name);
     }

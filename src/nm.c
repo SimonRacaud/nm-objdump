@@ -22,11 +22,11 @@ int my_nm(const char *filename)
     if (load_elf_header(&file) != EXIT_SUCCESS) {
         return error_exit(&file);
     }
-    if (file.elf_head->e_ident[EI_CLASS] == ELFCLASS32) {
+    if (file.elf_head64->e_ident[EI_CLASS] == ELFCLASS32) {
         if (nm32(&file) != EXIT_SUCCESS) {
             return error_exit(&file);
         }
-    } else if (file.elf_head->e_ident[EI_CLASS] == ELFCLASS64) {
+    } else if (file.elf_head64->e_ident[EI_CLASS] == ELFCLASS64) {
         if (nm64(&file) != EXIT_SUCCESS) {
             return error_exit(&file);
         }

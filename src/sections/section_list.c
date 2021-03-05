@@ -20,7 +20,7 @@
 //     uint64_t   sh_entsize;   // size of a ElfX_sym
 // } Elf64_Shdr;
 
-Elf32_Shdr *get_section_header32(Elf64_Ehdr *head)
+Elf32_Shdr *get_section_header32(Elf32_Ehdr *head)
 {
     if (!head || head->e_shoff == 0) {
         return NULL;

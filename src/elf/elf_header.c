@@ -24,11 +24,22 @@
 //     Elf64_Half e_shstrndx;   ---      /* Section header string table index
 // } Elf64_Ehdr;
 
-static bool is_file_truncated(Elf64_Ehdr *h, elf_file_t *file)
+static bool is_file_truncated64(Elf64_Ehdr *h, elf_file_t *file)
 {
     size_t file_size = h->e_shoff + (h->e_shnum * h->e_shentsize);
 
-    if (file_size < file->size) {
+    if (file_size > file->size) {
+        fprintf(stderr, "nm: Truncated file\n");
+        return true;
+    }
+    return false;
+}
+
+static bool is_file_truncated32(Elf32_Ehdr *h, elf_file_t *file)
+{
+    size_t file_size = h->e_shoff + (h->e_shnum * h->e_shentsize);
+
+    if (file_size > file->size) {
         fprintf(stderr, "nm: Truncated file\n");
         return true;
     }
@@ -40,13 +51,19 @@ static bool is_valid(Elf64_Ehdr *h, elf_file_t *file)
     if (h->e_ident[EI_MAG0] != ELFMAG0 || h->e_ident[EI_MAG1] != ELFMAG1
         || h->e_ident[EI_MAG2] != ELFMAG2 || h->e_ident[EI_MAG3] != ELFMAG3
         || (h->e_type == ET_NONE || h->e_type == ET_CORE)) {
-        return is_file_truncated(h, file);
+        return false;
+    }
+    if (file->elf_head64->e_ident[EI_CLASS] == ELFCLASS64) {
+        return !is_file_truncated64(h, file);
+    } else if (file->elf_head64->e_ident[EI_CLASS] == ELFCLASS32) {
+        return !is_file_truncated32(file->elf_head32, file);
     }
     return true;
 }
 
 int load_elf_header(elf_file_t *file)
 {
-    file->elf_head = (Elf64_Ehdr *) file->content;
-    return is_valid(file->elf_head, file) ? EXIT_SUCCESS : EXIT_ERROR;
+    file->elf_head64 = (Elf64_Ehdr *) file->content;
+    file->elf_head32 = (Elf32_Ehdr *) file->content;
+    return is_valid(file->elf_head64, file) ? EXIT_SUCCESS : EXIT_ERROR;
 }

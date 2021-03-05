@@ -10,6 +10,7 @@
 
 #include <elf.h>
 #include <stdbool.h>
+#include <ar.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,7 +24,8 @@ typedef struct elf_file_s {
     int fd;
     void *content;
     size_t size;
-    Elf64_Ehdr *elf_head;
+    Elf64_Ehdr *elf_head64;
+    Elf32_Ehdr *elf_head32;
     Elf64_Shdr *sections64;
     Elf32_Shdr *sections32;
     Elf64_Shdr *sym_head64;
@@ -49,7 +51,7 @@ Elf32_Shdr *get_sym_sect_hdr32(elf_file_t *file);
 Elf64_Shdr *get_sym_sect_hdr64(elf_file_t *file);
 char *get_strtab_sect32(elf_file_t *file);
 char *get_strtab_sect64(elf_file_t *file);
-Elf32_Shdr *get_section_header32(Elf64_Ehdr *head);
+Elf32_Shdr *get_section_header32(Elf32_Ehdr *head);
 Elf64_Shdr *get_section_header64(Elf64_Ehdr *head);
 
 Elf64_Sym *symbol64_generator(Elf64_Shdr *sym_section, void *content);
@@ -66,6 +68,7 @@ void save_elf_symbols32(
     elf_file_t *file, sym_list_t **list, size_t *list_size);
 
 void sort_symbols(sym_list_t **list);
-void display_symbols(sym_list_t *list);
+void display_symbols64(sym_list_t *list);
+void display_symbols32(sym_list_t *list);
 
 #endif /* !NM_H_ */
