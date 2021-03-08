@@ -59,8 +59,8 @@ Elf64_Sym *symbol64_generator(Elf64_Shdr *sym_section, void *content);
 Elf32_Sym *symbol32_generator(Elf32_Shdr *sym_section, void *content);
 
 // Type
-char find_sym_type64(Elf64_Sym *symbol, Elf64_Shdr *sections);
-char find_sym_type32(Elf32_Sym *symbol, Elf32_Shdr *sections);
+char find_sym_type64(Elf64_Sym *sym, Elf64_Shdr *shdr);
+char find_sym_type32(Elf32_Sym *sym, Elf32_Shdr *shdr);
 
 // Symbols
 void save_elf_symbols64(

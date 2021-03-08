@@ -7,63 +7,65 @@
 
 #include "nm.h"
 
-static char find_flags_charlie(Elf64_Sym *symbol, Elf64_Shdr *sections)
+static char find_type_sub1(Elf64_Sym *sym, Elf64_Shdr *shdr)
 {
-    if (sections[symbol->st_shndx].sh_type == SHT_PROGBITS
-        && (sections[symbol->st_shndx].sh_flags == SHF_ALLOC
-            || sections[symbol->st_shndx].sh_flags == (SHF_ALLOC | SHF_MERGE)))
-        return 'R';
-    if (sections[symbol->st_shndx].sh_type == SHT_NOBITS
-        && sections[symbol->st_shndx].sh_flags == (SHF_ALLOC | SHF_WRITE))
-        return 'B';
-    if ((sections[symbol->st_shndx].sh_type == SHT_FINI_ARRAY
-            || sections[symbol->st_shndx].sh_type == SHT_INIT_ARRAY)
-        && sections[symbol->st_shndx].sh_flags == (SHF_ALLOC | SHF_WRITE))
-        return 'T';
-    return '?';
-}
-
-static char find_flags_beta(Elf64_Sym *symbol, Elf64_Shdr *sections)
-{
-    if (sections[symbol->st_shndx].sh_type == SHT_DYNAMIC)
-        return 'D';
-    if (sections[symbol->st_shndx].sh_type == SHT_PROGBITS
-        && sections[symbol->st_shndx].sh_flags == (SHF_ALLOC | SHF_WRITE))
-        return 'D';
-    if (sections[symbol->st_shndx].sh_type == SHT_PROGBITS
-        && sections[symbol->st_shndx].sh_flags == (SHF_ALLOC | SHF_EXECINSTR))
-        return 'T';
-    if (symbol->st_shndx == SHN_UNDEF)
+    if (sym->st_shndx == SHN_UNDEF)
         return 'U';
-    if (symbol->st_shndx == SHN_ABS)
+    else if (sym->st_shndx == SHN_ABS)
         return 'A';
-    if (symbol->st_shndx == SHN_COMMON)
+    if (sym->st_shndx == SHN_COMMON)
         return 'C';
-    return find_flags_charlie(symbol, sections);
+    else if (shdr[sym->st_shndx].sh_type == SHT_NOBITS
+        && shdr[sym->st_shndx].sh_flags == (SHF_ALLOC | SHF_WRITE))
+        return 'B';
+    return 0;
 }
 
-static char find_flags_alpha(Elf64_Sym *symbol, Elf64_Shdr *sections)
+static char find_type_sub2(Elf64_Sym *sym, Elf64_Shdr *shdr)
 {
-    if (ELF64_ST_BIND(symbol->st_info) == STB_WEAK) {
-        return (symbol->st_shndx == SHN_UNDEF) ? 'w' : 'W';
-    }
-    if (ELF64_ST_BIND(symbol->st_info) == STB_GNU_UNIQUE) {
+    if (shdr[sym->st_shndx].sh_type == SHT_PROGBITS
+        && shdr[sym->st_shndx].sh_flags == SHF_ALLOC)
+        return 'R';
+    if (shdr[sym->st_shndx].sh_type == SHT_PROGBITS
+        && shdr[sym->st_shndx].sh_flags == (SHF_ALLOC | SHF_WRITE))
+        return 'D';
+    else if (shdr[sym->st_shndx].sh_type == SHT_PROGBITS
+        && shdr[sym->st_shndx].sh_flags == (SHF_ALLOC | SHF_EXECINSTR))
+        return 'T';
+    if (shdr[sym->st_shndx].sh_type == SHT_DYNAMIC)
+        return 'D';
+    return 0;
+}
+
+static char find_type_bind(Elf64_Sym *sym)
+{
+    if (ELF64_ST_BIND(sym->st_info) == STB_GNU_UNIQUE)
         return 'u';
+    if (ELF64_ST_BIND(sym->st_info) == STB_WEAK) {
+        return (sym->st_shndx == SHN_UNDEF) ? 'w' : 'W';
     }
-    if (ELF64_ST_BIND(symbol->st_info) == STB_WEAK
-        && ELF64_ST_TYPE(symbol->st_info) == STT_OBJECT) {
-        return (symbol->st_shndx == SHN_UNDEF) ? 'v' : 'V';
+    if (ELF64_ST_BIND(sym->st_info) == STB_WEAK
+        && ELF64_ST_TYPE(sym->st_info) == STT_OBJECT) {
+        return (sym->st_shndx == SHN_UNDEF) ? 'v' : 'V';
     }
-    return find_flags_beta(symbol, sections);
+    return 0;
 }
 
-char find_sym_type64(Elf64_Sym *symbol, Elf64_Shdr *sections)
+char find_sym_type64(Elf64_Sym *sym, Elf64_Shdr *shdr)
 {
-    char type = '\0';
+    char c;
+    char ret;
 
-    type = find_flags_alpha(symbol, sections);
-    if (ELF64_ST_BIND(symbol->st_info) == STB_LOCAL && type != '?') {
-        type += 32;
-    }
-    return type;
+    ret = find_type_bind(sym);
+    c = find_type_sub1(sym, shdr);
+    if (c != 0)
+        ret = c;
+    c = find_type_sub2(sym, shdr);
+    if (c != 0)
+        ret = c;
+    if (ret == 0)
+        ret = '?';
+    if (ELF64_ST_BIND(sym->st_info) == STB_LOCAL && ret != '?')
+        ret += 32;
+    return ret;
 }
