@@ -21,6 +21,7 @@ SRC_FILES = 	main.c 				\
 				symbols/display_symbols.c	\
 				symbols/save_symbols.c		\
 				symbols/sort_symbols.c		\
+#				archive.c			\
 
 SRC	=	$(addprefix $(DSRC), $(SRC_FILES))
 
@@ -34,7 +35,7 @@ INCLUDE = -I./includes
 
 all:  $(NAME)
 
-$(NAME): $(OBJ)
+nm: $(OBJ)
 	@gcc -o $(NAME) $(OBJ) && \
 		$(ECHO) $(BOLD_T)$(GREEN_C)"\n[✔] COMPILED:" $(DEFAULT)$(LIGHT_GREEN) "$(NAME)\n"$(DEFAULT) || \
 		$(ECHO) $(BOLD_T)$(RED_C)"[✘] "$(UNDLN_T)"BUILD FAILED:" $(LIGHT_RED) "$(NAME)\n"$(DEFAULT)
