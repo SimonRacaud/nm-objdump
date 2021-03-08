@@ -12,7 +12,6 @@ void sort_symbols(sym_list_t **list, size_t list_size)
 {
     if (!setlocale(LC_ALL, "en_US")) {
         fprintf(stderr, "setlocal error\n");
-        exit(84);
     }
     sort_list(list, list_size, &strcoll);
 }
