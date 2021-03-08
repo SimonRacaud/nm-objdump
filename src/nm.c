@@ -21,25 +21,37 @@ static void show_prelude(const char *filename, int argc)
         printf("%s:\n", filename);
 }
 
+int nm_show_content(elf_file_t *file, int argc)
+{
+    if (load_elf_header(file) != EXIT_SUCCESS) {
+        return error_exit(file);
+    }
+    show_prelude(file->filename, argc);
+    if (file->elf_head64->e_ident[EI_CLASS] == ELFCLASS32) {
+        if (nm32(file) != EXIT_SUCCESS) {
+            return error_exit(file);
+        }
+    } else if (file->elf_head64->e_ident[EI_CLASS] == ELFCLASS64) {
+        if (nm64(file) != EXIT_SUCCESS) {
+            return error_exit(file);
+        }
+    }
+    return EXIT_SUCCESS;
+}
+
 int my_nm(const char *filename, int argc)
 {
     elf_file_t file;
+    int archive_status;
 
     if (load_file(filename, &file) != EXIT_SUCCESS)
         return EXIT_ERROR;
-    if (load_elf_header(&file) != EXIT_SUCCESS) {
+    archive_status = archive(&file);
+    if (archive_status == EXIT_ERROR)
         return error_exit(&file);
-    }
-    show_prelude(filename, argc);
-    if (file.elf_head64->e_ident[EI_CLASS] == ELFCLASS32) {
-        if (nm32(&file) != EXIT_SUCCESS) {
-            return error_exit(&file);
-        }
-    } else if (file.elf_head64->e_ident[EI_CLASS] == ELFCLASS64) {
-        if (nm64(&file) != EXIT_SUCCESS) {
-            return error_exit(&file);
-        }
-    }
+    if (archive_status == EXIT_FAILURE
+        && nm_show_content(&file, argc) != EXIT_SUCCESS)
+        return EXIT_ERROR;
     close_file(&file);
     return EXIT_SUCCESS;
 }

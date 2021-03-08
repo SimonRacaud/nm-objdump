@@ -22,7 +22,11 @@ SRC_FILES = 	main.c 				\
 				symbols/display_symbols.c	\
 				symbols/save_symbols.c		\
 				symbols/sort_symbols.c		\
-#				archive.c			\
+				archive/archive.c					\
+				archive/archive_section_generator.c	\
+				archive/load_from_archive.c			\
+				tools/my_str_to_word_array.c		\
+				tools/str_to_number.c				\
 
 SRC	=	$(addprefix $(DSRC), $(SRC_FILES))
 

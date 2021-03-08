@@ -35,7 +35,12 @@ typedef struct elf_file_s {
 
 } elf_file_t;
 
+// elf archive
+int archive(elf_file_t *file);
+
+// nm
 int my_nm(const char *filename, int argc);
+int nm_show_content(elf_file_t *file, int argc);
 
 int load_elf_header(elf_file_t *file);
 
@@ -71,5 +76,9 @@ void save_elf_symbols32(
 void sort_symbols(sym_list_t **list, size_t list_size);
 void display_symbols64(sym_list_t *list);
 void display_symbols32(sym_list_t *list);
+
+// tools
+char **my_str_to_word_array(const char *str, const char *delim);
+int str_to_number(const char *buff, size_t len);
 
 #endif /* !NM_H_ */
