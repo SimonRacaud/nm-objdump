@@ -9,7 +9,7 @@ DSRC	=	./src/
 
 SRC_FILES = 	main.c 				\
 				nm.c				\
-				nmArchi.c			\
+				nm_archi.c			\
 				elf/load_file.c		\
 				elf/elf_header.c	\
 				elf/sym_type64.c	\
