@@ -18,7 +18,7 @@ static void open_error_manager(const char *filename)
     if (errno == EACCES)
         fprintf(stderr, "permission denied");
     else
-        fprintf(stderr, "file open error");
+        fprintf(stderr, "No such file");
     fprintf(stderr, "\n");
 }
 
