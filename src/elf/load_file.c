@@ -38,10 +38,12 @@ int load_file(const char *filename, elf_file_t *file)
         close(file->fd);
         return EXIT_ERROR;
     }
+    file->filename = strdup(filename);
     return EXIT_SUCCESS;
 }
 
 void close_file(elf_file_t *file)
 {
+    free(file->filename);
     close(file->fd);
 }

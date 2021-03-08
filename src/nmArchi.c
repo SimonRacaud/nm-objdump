@@ -18,7 +18,7 @@ int nm64(elf_file_t *file)
     file->strtab_sect = get_strtab_sect64(file);
     file->sym_head64 = get_sym_sect_hdr64(file);
     if (file->sym_head64 == NULL)
-        fprintf(stderr, "No symbol\n");
+        fprintf(stderr, "nm: %s: no symbols\n", file->filename);
     while (file->sym_head64 != NULL) {
         save_elf_symbols64(file, &list, &list_size);
         file->sym_head64 = get_sym_sect_hdr64(file);
@@ -42,7 +42,7 @@ int nm32(elf_file_t *file)
         return EXIT_ERROR;
     file->sym_head32 = get_sym_sect_hdr32(file);
     if (file->sym_head32 == NULL)
-        fprintf(stderr, "No symbol\n");
+        fprintf(stderr, "nm: %s: no symbols\n", file->filename);
     while (file->sym_head32 != NULL) {
         save_elf_symbols32(file, &list, &list_size);
         file->sym_head32 = get_sym_sect_hdr32(file);

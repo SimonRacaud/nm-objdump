@@ -33,7 +33,7 @@ CFLAGS	+= -W -Wall -Wextra $(INCLUDE) -g #-Werror
 
 INCLUDE = -I./includes
 
-all:  $(NAME)
+all:  nm
 
 nm: $(OBJ)
 	@gcc -o $(NAME) $(OBJ) && \

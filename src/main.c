@@ -15,26 +15,28 @@ static int usage(int exit, char *filename)
     return exit;
 }
 
-int main(int argc, char **argv)
+static int argv_launcher(int argc, char **argv)
 {
+    int status = EXIT_SUCCESS;
     int ret;
 
+    for (int i = 1; i < argc; i++) {
+        ret = my_nm(argv[i], argc);
+        if (status == EXIT_SUCCESS && ret != EXIT_SUCCESS)
+            status = ret;
+    }
+    return status;
+}
+
+int main(int argc, char **argv)
+{
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-h") == 0) {
             return usage(EXIT_SUCCESS, argv[0]);
         }
     }
     if (argc == 1) {
-        return my_nm(DEFAULT_FILENAME);
+        return my_nm(DEFAULT_FILENAME, argc);
     }
-    for (int i = 1; i < argc; i++) {
-        if (argc > 3)
-            printf("\n");
-        if (argc > 2)
-            printf("%s:\n", argv[i]);
-        ret = my_nm(argv[i]);
-        if (ret != EXIT_SUCCESS)
-            return ret;
-    }
-    return EXIT_SUCCESS;
+    return argv_launcher(argc, argv);
 }

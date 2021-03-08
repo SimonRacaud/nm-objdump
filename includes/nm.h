@@ -8,9 +8,9 @@
 #ifndef NM_H_
 #define NM_H_
 
+#include <ar.h>
 #include <elf.h>
 #include <stdbool.h>
-#include <ar.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,6 +21,7 @@
 #define E_INDENT_IS(h, key, val) (h->e_ident[key] == val)
 
 typedef struct elf_file_s {
+    char *filename;
     int fd;
     void *content;
     size_t size;
@@ -34,7 +35,7 @@ typedef struct elf_file_s {
 
 } elf_file_t;
 
-int my_nm(const char *filename);
+int my_nm(const char *filename, int argc);
 
 int load_elf_header(elf_file_t *file);
 
