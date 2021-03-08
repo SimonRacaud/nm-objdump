@@ -7,13 +7,13 @@
 
 DSRC	=	./src/
 
-SRC_FILES = 	main.c 				\
-				nm.c				\
-				nm_archi.c			\
-				elf/load_file.c		\
-				elf/elf_header.c	\
-				elf/sym_type64.c	\
-				elf/sym_type32.c	\
+SRC_FILES_NM = 	nm/main.c 					\
+				nm/nm.c						\
+				nm/nm_archi.c				\
+				elf/load_file.c				\
+				elf/elf_header.c			\
+				elf/sym_type64.c			\
+				elf/sym_type32.c			\
 				sections/section_list.c		\
 				sections/section_str.c		\
 				sections/section_sym.c		\
@@ -26,32 +26,41 @@ SRC_FILES = 	main.c 				\
 				archive/archive_section_generator.c	\
 				archive/load_from_archive.c			\
 				tools/my_str_to_word_array.c		\
-				tools/str_to_number.c				\
+				tools/str_to_number.c				
 
-SRC	=	$(addprefix $(DSRC), $(SRC_FILES))
+SRC_NM	=	$(addprefix $(DSRC), $(SRC_FILES_NM))
+OBJ_NM	=	$(SRC_NM:.c=.o)
+NAME_NM	=	my_nm
 
-OBJ	=	$(SRC:.c=.o)
+SRC_FILES_OBJD 	= objdump/main.c
 
-NAME	=	my_nm
+SRC_OBJD 		= $(addprefix $(DSRC), $(SRC_FILES_OBJD)) 
+OBJ_OBJD		= $(SRC_OBJD:.c=.o)
+NAME_OBJD 		= my_objdump	
 
 CFLAGS	+= -W -Wall -Wextra $(INCLUDE) -g #-Werror
 
 INCLUDE = -I./includes
 
-all:  nm
+all:  nm objdump
 
-nm: $(OBJ)
-	@gcc -o $(NAME) $(OBJ) && \
-		$(ECHO) $(BOLD_T)$(GREEN_C)"\n[✔] COMPILED:" $(DEFAULT)$(LIGHT_GREEN) "$(NAME)\n"$(DEFAULT) || \
-		$(ECHO) $(BOLD_T)$(RED_C)"[✘] "$(UNDLN_T)"BUILD FAILED:" $(LIGHT_RED) "$(NAME)\n"$(DEFAULT)
+nm: $(OBJ_NM)
+	@gcc -o $(NAME_NM) $(OBJ_NM) && \
+		$(ECHO) $(BOLD_T)$(GREEN_C)"\n[✔] COMPILED:" $(DEFAULT)$(LIGHT_GREEN) "$(NAME_NM)\n"$(DEFAULT) || \
+		$(ECHO) $(BOLD_T)$(RED_C)"[✘] "$(UNDLN_T)"BUILD FAILED:" $(LIGHT_RED) "$(NAME_NM)\n"$(DEFAULT)
+
+objdump:	$(OBJ_OBJD)
+	@gcc -o $(NAME_OBJD) $(OBJ_OBJD) && \
+		$(ECHO) $(BOLD_T)$(GREEN_C)"\n[✔] COMPILED:" $(DEFAULT)$(LIGHT_GREEN) "$(NAME_OBJD)\n"$(DEFAULT) || \
+		$(ECHO) $(BOLD_T)$(RED_C)"[✘] "$(UNDLN_T)"BUILD FAILED:" $(LIGHT_RED) "$(NAME_OBJD)\n"$(DEFAULT)
 
 clean:
-	rm -f  $(OBJ)
+	rm -f  $(OBJ_NM) $(OBJ_OBJD)
 	rm -f *.gcda
 	rm -f *.gcno
 
 fclean:	clean
-	rm -f $(NAME)
+	rm -f $(NAME_NM) $(NAME_OBJD)
 
 re:	fclean all
 

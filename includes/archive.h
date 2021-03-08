@@ -8,6 +8,7 @@
 #ifndef ARCHIVE_H_
 #define ARCHIVE_H_
 
+#include <ar.h>
 #include "nm.h"
 
 typedef struct ar_hdr ar_header_t;

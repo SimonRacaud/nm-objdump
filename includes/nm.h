@@ -8,7 +8,6 @@
 #ifndef NM_H_
 #define NM_H_
 
-#include <ar.h>
 #include <elf.h>
 #include <stdbool.h>
 #include <stdio.h>
