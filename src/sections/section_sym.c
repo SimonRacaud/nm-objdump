@@ -18,7 +18,7 @@
 
 Elf32_Shdr *get_sym_sect_hdr32(elf_file_t *file)
 {
-   static size_t section_idx = 0;
+    static size_t section_idx = 0;
     Elf32_Shdr *ret;
 
     for (; section_idx < file->elf_head32->e_shnum; section_idx++) {

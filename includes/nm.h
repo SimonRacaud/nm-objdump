@@ -68,7 +68,7 @@ void save_elf_symbols64(
 void save_elf_symbols32(
     elf_file_t *file, sym_list_t **list, size_t *list_size);
 
-void sort_symbols(sym_list_t **list);
+void sort_symbols(sym_list_t **list, size_t list_size);
 void display_symbols64(sym_list_t *list);
 void display_symbols32(sym_list_t *list);
 

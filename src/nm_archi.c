@@ -23,7 +23,7 @@ int nm64(elf_file_t *file)
         save_elf_symbols64(file, &list, &list_size);
         file->sym_head64 = get_sym_sect_hdr64(file);
     }
-    sort_symbols(&list);
+    sort_symbols(&list, list_size);
     display_symbols64(list);
     sym_list_destroy(list);
     return EXIT_SUCCESS;
@@ -47,7 +47,7 @@ int nm32(elf_file_t *file)
         save_elf_symbols32(file, &list, &list_size);
         file->sym_head32 = get_sym_sect_hdr32(file);
     }
-    sort_symbols(&list);
+    sort_symbols(&list, list_size);
     display_symbols32(list);
     sym_list_destroy(list);
     return EXIT_SUCCESS;

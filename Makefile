@@ -18,6 +18,7 @@ SRC_FILES = 	main.c 				\
 				sections/section_str.c		\
 				sections/section_sym.c		\
 				list/sym_list.c				\
+				list/sort_list.c			\
 				symbols/display_symbols.c	\
 				symbols/save_symbols.c		\
 				symbols/sort_symbols.c		\

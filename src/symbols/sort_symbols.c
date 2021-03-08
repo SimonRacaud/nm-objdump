@@ -8,8 +8,9 @@
 #include <locale.h>
 #include "nm.h"
 
-void sort_symbols(sym_list_t **list)
+void sort_symbols(sym_list_t **list, size_t list_size)
 {
-    setlocale(LC_ALL, "");
-    my_sort_list(list, &strcoll);
+    if (!setlocale(LC_ALL, "en_GB"))
+        fprintf(stderr, "setlocal error\n");
+    sort_list(list, list_size, &strcoll);
 }

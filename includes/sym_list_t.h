@@ -18,6 +18,7 @@ typedef struct linked_list_sym {
 
 int sym_list_add(sym_list_t **list, char *name, Elf64_Addr value, char type);
 void sym_list_destroy(sym_list_t *list);
-void my_sort_list(sym_list_t **begin, int (*cmp)());
+
+bool sort_list(sym_list_t **list, size_t size, int (*cmp)());
 
 #endif
