@@ -19,6 +19,7 @@ char *str_slash_dup(char *str)
 int load_elf_from_buffer(char *filename, archive_t *section, elf_file_t *file)
 {
     file->filename = str_slash_dup(filename);
+    file->app_name = file->app_name;
     file->content = (char *) section->header + sizeof(ar_header_t);
     file->size = section->size;
     return EXIT_SUCCESS;

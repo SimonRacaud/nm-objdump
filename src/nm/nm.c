@@ -44,7 +44,7 @@ int my_nm(const char *filename, int argc)
     elf_file_t file;
     int archive_status;
 
-    if (load_file(filename, &file) != EXIT_SUCCESS)
+    if (load_file(filename, &file, "nm") != EXIT_SUCCESS)
         return EXIT_ERROR;
     archive_status = archive(&file);
     if (archive_status == EXIT_ERROR)

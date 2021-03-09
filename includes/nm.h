@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "sym_list_t.h"
 
 #define EXIT_ERROR               84
@@ -21,6 +23,7 @@
 
 typedef struct elf_file_s {
     char *filename;
+    char *app_name;
     int fd;
     void *content;
     size_t size;
@@ -44,7 +47,7 @@ int nm_show_content(elf_file_t *file, int argc);
 int load_elf_header(elf_file_t *file);
 
 // load file
-int load_file(const char *filename, elf_file_t *file);
+int load_file(const char *filename, elf_file_t *file, const char *app_name);
 void close_file(elf_file_t *file);
 
 // nm archi
