@@ -22,11 +22,12 @@ int nm32(elf_file_t *file);
 // elf section
 Elf32_Shdr *get_sym_sect_hdr32(elf_file_t *file);
 Elf64_Shdr *get_sym_sect_hdr64(elf_file_t *file);
-char *get_strtab_sect32(elf_file_t *file);
-char *get_strtab_sect64(elf_file_t *file);
 
 Elf64_Sym *symbol64_generator(Elf64_Shdr *sym_section, void *content);
 Elf32_Sym *symbol32_generator(Elf32_Shdr *sym_section, void *content);
+
+char *get_strtab_sect64(elf_file_t *file);
+char *get_strtab_sect32(elf_file_t *file);
 
 // Type
 char find_sym_type64(Elf64_Sym *sym, Elf64_Shdr *shdr);

@@ -10,7 +10,6 @@
 static bool is_valid_archive(elf_file_t *file)
 {
     if (strncmp((char *) file->content, ARMAG, SARMAG) != 0) {
-        fprintf(stderr, "No magic string");
         return 0;
     }
     return 1;
