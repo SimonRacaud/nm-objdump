@@ -15,6 +15,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "flags.h"
 
 #define EXIT_ERROR               84
 #define ERROR_PTR                (void *) -1

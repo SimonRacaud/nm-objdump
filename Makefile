@@ -32,13 +32,18 @@ SRC_NM	=	$(addprefix $(DSRC), $(SRC_FILES_NM))
 OBJ_NM	=	$(SRC_NM:.c=.o)
 NAME_NM	=	my_nm
 
-SRC_FILES_OBJD 	= objdump/main.c
+SRC_FILES_OBJD 	= 	objdump/main.c			\
+					objdump/file_header.c	\
+					objdump/objdump.c 		\
+					objdump/objdumpArchi.c 	\
+					elf/load_file.c 		\
+					elf/elf_header.c 		\
 
 SRC_OBJD 		= $(addprefix $(DSRC), $(SRC_FILES_OBJD)) 
 OBJ_OBJD		= $(SRC_OBJD:.c=.o)
 NAME_OBJD 		= my_objdump	
 
-CFLAGS	+= -W -Wall -Wextra $(INCLUDE) -Werror $(DEBUG)
+CFLAGS	+= -W -Wall -Wextra $(INCLUDE) $(DEBUG) # -Werror
 DEBUG 	= -g
 
 INCLUDE = -I./includes
