@@ -38,7 +38,8 @@ SRC_OBJD 		= $(addprefix $(DSRC), $(SRC_FILES_OBJD))
 OBJ_OBJD		= $(SRC_OBJD:.c=.o)
 NAME_OBJD 		= my_objdump	
 
-CFLAGS	+= -W -Wall -Wextra $(INCLUDE) -g #-Werror
+CFLAGS	+= -W -Wall -Wextra $(INCLUDE) -Werror $(DEBUG)
+DEBUG 	= -g
 
 INCLUDE = -I./includes
 
@@ -63,6 +64,9 @@ fclean:	clean
 	rm -f $(NAME_NM) $(NAME_OBJD)
 
 re:	fclean all
+
+nm_re: fclean nm
+obj_re: fclean objdump
 
 reall:	fclean all
 
