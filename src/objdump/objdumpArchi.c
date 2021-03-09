@@ -10,7 +10,7 @@
 int objdump64(elf_file_t *file)
 {
     show_file_header64(file);
-
+    show_sections(file);
     return EXIT_SUCCESS;
 }
 

@@ -35,4 +35,8 @@ int objdump_run(elf_file_t *file); // elf archive
 int objdump64(elf_file_t *file);
 int objdump32(elf_file_t *file);
 
+// show sections
+int show_sections(elf_file_t *file);
+int print_section_content(Elf64_Off offset, size_t size, void *content);
+
 #endif /* !OBJDUMP_H_ */

@@ -36,8 +36,12 @@ SRC_FILES_OBJD 	= 	objdump/main.c			\
 					objdump/file_header.c	\
 					objdump/objdump.c 		\
 					objdump/objdumpArchi.c 	\
+					objdump/show_sections.c	\
+					objdump/print_section_content.c	\
 					elf/load_file.c 		\
 					elf/elf_header.c 		\
+					sections/section_list.c \
+					sections/section_str.c 	\
 
 SRC_OBJD 		= $(addprefix $(DSRC), $(SRC_FILES_OBJD)) 
 OBJ_OBJD		= $(SRC_OBJD:.c=.o)

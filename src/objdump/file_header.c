@@ -49,7 +49,7 @@ static void show_flags_labels(Elf64_Half value)
 
 int show_file_header64(elf_file_t *file)
 {
-    printf("%s:\tfile format ", file->filename);
+    printf("\n%s:     file format ", file->filename);
     printf("%s\n", FILE_FORMAT64);
     printf("architecture: %s, flags 0x%08x:\n",
         get_archi(file->elf_head64->e_machine),
@@ -61,7 +61,7 @@ int show_file_header64(elf_file_t *file)
 
 int show_file_header32(elf_file_t *file)
 {
-    printf("%s:\tfile format ", file->filename);
+    printf("\n%s:     file format ", file->filename);
     printf("%s\n", FILE_FORMAT32);
     printf("architecture: %s, flags 0x%08x:\n",
         get_archi(file->elf_head32->e_machine),

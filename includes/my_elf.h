@@ -51,6 +51,10 @@ void close_file(elf_file_t *file);
 Elf32_Shdr *get_section_header32(Elf32_Ehdr *head);
 Elf64_Shdr *get_section_header64(Elf64_Ehdr *head);
 
+// elf section's names
+char *get_str_sect64(elf_file_t *file);
+char *get_str_sect32(elf_file_t *file);
+
 // tools
 char **my_str_to_word_array(const char *str, const char *delim);
 int str_to_number(const char *buff, size_t len);
