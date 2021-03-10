@@ -29,7 +29,7 @@ static bool is_file_truncated64(Elf64_Ehdr *h, elf_file_t *file)
     size_t file_size = h->e_shoff + (h->e_shnum * h->e_shentsize);
 
     if (file_size > file->size) {
-        fprintf(stderr, "%s: %s: file truncated\n", file->app_name,
+        fprintf(stderr, "%s: %s: file format not recognized\n", file->app_name,
             file->filename);
         return true;
     }
@@ -41,7 +41,7 @@ static bool is_file_truncated32(Elf32_Ehdr *h, elf_file_t *file)
     size_t file_size = h->e_shoff + (h->e_shnum * h->e_shentsize);
 
     if (file_size > file->size) {
-        fprintf(stderr, "%s: %s: file truncated\n", file->app_name,
+        fprintf(stderr, "%s: %s: file format not recognized\n", file->app_name,
             file->filename);
         return true;
     }
@@ -53,7 +53,7 @@ static bool is_valid(Elf64_Ehdr *h, elf_file_t *file)
     if (h->e_ident[EI_MAG0] != ELFMAG0 || h->e_ident[EI_MAG1] != ELFMAG1
         || h->e_ident[EI_MAG2] != ELFMAG2 || h->e_ident[EI_MAG3] != ELFMAG3
         || (h->e_type == ET_NONE || h->e_type == ET_CORE)) {
-        fprintf(stderr, "%s: %s: file format not recognized\n", file->filename,
+        fprintf(stderr, "%s: %s: file format not recognized\n", file->app_name,
             file->filename);
         return false;
     }
