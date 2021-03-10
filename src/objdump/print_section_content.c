@@ -7,10 +7,10 @@
 
 #include "objdump.h"
 
-const size_t LINE_LENGTH = 16;
+const size_t LINE_LENGTH = 0x10;
 const size_t LINE_HEX_SPLIT = 4;
 
-static void print_octet(char *addr, size_t offset, size_t max)
+static void print_octet(char *addr, Elf64_Off offset, Elf64_Off max)
 {
     if (offset >= max) {
         printf("  ");
@@ -19,7 +19,7 @@ static void print_octet(char *addr, size_t offset, size_t max)
     }
 }
 
-static void print_char(char *addr, size_t offset, size_t max)
+static void print_char(char *addr, Elf64_Off offset, Elf64_Off max)
 {
     char c;
 
@@ -35,29 +35,32 @@ static void print_char(char *addr, size_t offset, size_t max)
     }
 }
 
-void print_line(char *addr, size_t max_size, size_t *current_size)
+static void print_line(
+    Elf64_Addr addr, char *content, Elf64_Off max_size, Elf64_Off *offset)
 {
-    printf(" %04x ", (unsigned int) *current_size);
+    printf(" %04x ", (unsigned int) addr);
     for (size_t i = 0; i < LINE_LENGTH; i++) {
         if (i % LINE_HEX_SPLIT == 0 && i) {
             printf(" ");
         }
-        print_octet(addr, *current_size + i, max_size);
+        print_octet(content, (*offset + i), max_size);
     }
     printf("  ");
-    for (size_t i = 0; i < LINE_LENGTH; i++, (*current_size)++) {
-        print_char(addr, *current_size, max_size);
+    for (size_t i = 0; i < LINE_LENGTH; i++, (*offset)++) {
+        print_char(content, *offset, max_size);
     }
     printf("\n");
 }
 
-int print_section_content(Elf64_Off offset, size_t size, void *content)
+int print_section_content(
+    Elf64_Addr addr, Elf64_Off offset, void *content, size_t size)
 {
-    char *area = (char *) content + offset;
-    size_t current_size = 0;
+    char *content_addr = content;
+    size_t max_size = size + offset;
 
-    while (current_size < size) {
-        print_line(area, size, &current_size);
+    while (offset < max_size) {
+        print_line(addr, content_addr, max_size, &offset);
+        addr += LINE_LENGTH;
     }
     return EXIT_SUCCESS;
 }

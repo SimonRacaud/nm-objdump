@@ -43,7 +43,7 @@ static void show_flags_labels(Elf64_Half value)
     if (value == ET_EXEC)
         printf("EXEC_P, HAS_SYMS, D_PAGED");
     if (value == ET_DYN)
-        printf("HAS_SYMS | DYNAMIC | D_PAGED");
+        printf("HAS_SYMS, DYNAMIC, D_PAGED");
     printf("\n");
 }
 
@@ -67,6 +67,6 @@ int show_file_header32(elf_file_t *file)
         get_archi(file->elf_head32->e_machine),
         get_flag_value(file->elf_head32->e_type));
     show_flags_labels(file->elf_head32->e_type);
-    printf("start address 0x%016x\n\n", file->elf_head32->e_entry);
+    printf("start address 0x%08x\n\n", file->elf_head32->e_entry);
     return EXIT_SUCCESS;
 }

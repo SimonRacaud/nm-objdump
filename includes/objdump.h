@@ -36,7 +36,9 @@ int objdump64(elf_file_t *file);
 int objdump32(elf_file_t *file);
 
 // show sections
-int show_sections(elf_file_t *file);
-int print_section_content(Elf64_Off offset, size_t size, void *content);
+int show_sections64(elf_file_t *file);
+int show_sections32(elf_file_t *file);
+int print_section_content(
+    Elf64_Addr addr, Elf64_Off offset, void *content, size_t size);
 
 #endif /* !OBJDUMP_H_ */
