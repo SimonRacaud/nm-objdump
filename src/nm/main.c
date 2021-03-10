@@ -7,7 +7,7 @@
 
 #include "nm.h"
 
-const char *DEFAULT_FILENAME = "./a.out";
+const char *DEFAULT_FILENAME = "a.out";
 
 static int usage(int exit, char *filename)
 {
