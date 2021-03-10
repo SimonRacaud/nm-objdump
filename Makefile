@@ -25,6 +25,7 @@ SRC_FILES_NM = 	nm/main.c 					\
 				archive/archive.c					\
 				archive/archive_section_generator.c	\
 				archive/load_from_archive.c			\
+				archive/archive_app_nm.c			\
 				tools/my_str_to_word_array.c		\
 				tools/str_to_number.c				
 
@@ -32,16 +33,21 @@ SRC_NM	=	$(addprefix $(DSRC), $(SRC_FILES_NM))
 OBJ_NM	=	$(SRC_NM:.c=.o)
 NAME_NM	=	my_nm
 
-SRC_FILES_OBJD 	= 	objdump/main.c			\
-					objdump/file_header.c	\
-					objdump/objdump.c 		\
-					objdump/objdump_archi.c \
-					objdump/show_sections.c	\
-					objdump/print_section_content.c	\
-					elf/load_file.c 		\
-					elf/elf_header.c 		\
-					sections/section_list.c \
-					sections/section_str.c 	\
+SRC_FILES_OBJD 	= 	objdump/main.c							\
+					objdump/file_header.c					\
+					objdump/objdump.c 						\
+					objdump/objdump_archi.c 				\
+					objdump/show_sections.c					\
+					objdump/print_section_content.c			\
+					elf/load_file.c 						\
+					elf/elf_header.c 						\
+					sections/section_list.c 				\
+					sections/section_str.c 					\
+					archive/archive.c 						\
+					archive/archive_section_generator.c 	\
+					archive/load_from_archive.c 			\
+					archive/archive_app_objdump.c			\
+					tools/str_to_number.c					\
 
 SRC_OBJD 		= $(addprefix $(DSRC), $(SRC_FILES_OBJD)) 
 OBJ_OBJD		= $(SRC_OBJD:.c=.o)

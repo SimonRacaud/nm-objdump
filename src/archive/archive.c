@@ -44,8 +44,7 @@ static int read_sections(
         return EXIT_ERROR;
     if (load_elf_from_buffer(filename, section, &elf) != EXIT_SUCCESS)
         return EXIT_ERROR;
-    printf("\n%s:\n", elf.filename);
-    status = nm_show_content(&elf, 1);
+    launch_elf_app(&status, &elf);
     clear_elf_file(&elf);
     free(section);
     section =
@@ -64,18 +63,17 @@ int archive(elf_file_t *file)
 
     if (is_valid_archive(file) == false)
         return EXIT_FAILURE;
-    section =
-        archive_section_generator((char *) file->content + SARMAG, file->size);
+    section = GET_NEXT_SECTION(file);
     if (!section)
         return EXIT_ERROR;
     free(section);
-    section =
-        archive_section_generator((char *) file->content + SARMAG, file->size);
+    section = GET_NEXT_SECTION(file);
     if (strncmp(section->header->ar_name, ARCH_SYM_TAB_BEG, 2) == 0) {
         strtab = section;
-        section = archive_section_generator(
-            (char *) file->content + SARMAG, file->size);
+        section = GET_NEXT_SECTION(file);
     }
+    if (strcmp(file->app_name, "objdump") == 0)
+        printf("In archive %s:\n", file->filename);
     ret = read_sections(section, strtab, file);
     free(strtab);
     return ret;

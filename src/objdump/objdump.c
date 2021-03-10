@@ -30,13 +30,15 @@ int objdump_run(elf_file_t *file)
 int my_objdump(const char *filename)
 {
     elf_file_t file;
-    // int archive_status;
+    int archive_status;
 
     if (load_file(filename, &file, "objdump") != EXIT_SUCCESS)
         return EXIT_ERROR;
-    // archive_status = archive(&file);
-    // if (archive_status == EXIT_ERROR)
-    //     return error_exit(&file);
+    archive_status = archive(&file);
+    if (archive_status != EXIT_FAILURE) {
+        close_file(&file);
+        return archive_status;
+    }
     if (objdump_run(&file) != EXIT_SUCCESS)
         return EXIT_ERROR;
     close_file(&file);

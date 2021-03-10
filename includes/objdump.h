@@ -30,7 +30,7 @@ int show_file_header64(elf_file_t *file);
 
 // objdump
 int my_objdump(const char *filename);
-int objdump_run(elf_file_t *file); // elf archive
+int objdump_run(elf_file_t *file);
 
 int objdump64(elf_file_t *file);
 int objdump32(elf_file_t *file);
