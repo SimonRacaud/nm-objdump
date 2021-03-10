@@ -35,7 +35,7 @@ NAME_NM	=	my_nm
 SRC_FILES_OBJD 	= 	objdump/main.c			\
 					objdump/file_header.c	\
 					objdump/objdump.c 		\
-					objdump/objdumpArchi.c 	\
+					objdump/objdump_archi.c \
 					objdump/show_sections.c	\
 					objdump/print_section_content.c	\
 					elf/load_file.c 		\

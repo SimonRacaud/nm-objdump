@@ -7,15 +7,6 @@
 
 #include "nm.h"
 
-// typedef struct {
-//     uint32_t      st_name; // symbol name position
-//     unsigned char st_info;
-//     unsigned char st_other;
-//     uint16_t      st_shndx;
-//     Elf64_Addr    st_value;
-//     uint64_t      st_size;
-// } Elf64_Sym;
-
 Elf32_Shdr *get_sym_sect_hdr32(elf_file_t *file)
 {
     static size_t section_idx = 0;
