@@ -34,7 +34,6 @@ typedef struct elf_file_s {
     Elf64_Shdr *sym_head64;
     Elf32_Shdr *sym_head32;
     char *strtab_sect;
-
 } elf_file_t;
 
 // elf archive
