@@ -74,3 +74,7 @@ Contents of section .note.ABI-tag:
  038c 04000000 10000000 01000000 474e5500  ............GNU.
  039c 00000000 03000000 02000000 00000000  ................
 ```
+
+# ELF structure
+
+![ELF](/doc/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png)
